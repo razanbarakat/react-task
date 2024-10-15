@@ -99,23 +99,8 @@ const Home = () => {
           <Header />
 
           <main>
-            <p>
-              {" "}
-              Welcome: {user.displayName}{" "}
-              <span>
-                <i className="fa-solid fa-heart"></i>{" "}
-              </span>
-            </p>
-
-            <p>Please verify your email to continue ✋ </p>
-            <button
-              onClick={() => {
-                sendAgain();
-              }}
-              className="delete"
-            >
-              Send email
-            </button>
+          
+           
           </main>
 
           <Footer />
