@@ -8,6 +8,8 @@ import { auth } from "../../firebase/config";
 import { Link } from "react-router-dom";
 // import { sendEmailVerification } from "firebase/auth";
 import "./Home.css"
+import Modal from "../../shared/Modal";
+import { useState } from "react";
 
 
 const Home = () => {
@@ -20,6 +22,15 @@ const Home = () => {
   //     // ...
   //   });
   // };
+
+  const [showModal, setshowModal] = useState(false);
+
+  const forgotPassword = () => {
+    setshowModal(true);
+  };
+
+const closeModal = () => { setshowModal(false) }
+
 
 
   if (error) {
@@ -128,9 +139,9 @@ const Home = () => {
 
             {/* ADD NEW TASK BTN */}
             <section className="mt">
-              <button className="add-task-btn">ADD new task <i className="fa-solid fa-plus"></i></button>
+              <button  onClick={() => { setshowModal(true) }}  className="add-task-btn">ADD new task <i className="fa-solid fa-plus"></i></button>
             </section>
-
+{true && <Modal closeModal={closeModal}/>}
           </main>
           <Footer />
         </>
