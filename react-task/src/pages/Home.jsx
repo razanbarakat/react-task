@@ -25,8 +25,6 @@ const Home = () => {
   }
 
 
-
-
   if (loading) {
     return <Loading />;
   }
@@ -96,7 +94,6 @@ const Home = () => {
         <>
           <Helmet>
             <title>HOME Page</title>
-            <meta name="description" content="HOMEEEEEEEEEEEE" />
           </Helmet>
 
           <Header />
