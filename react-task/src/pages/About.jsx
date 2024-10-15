@@ -1,7 +1,6 @@
 import Header from "../comp/header";
 import Footer from "../comp/Footer";
 import Loading from "../comp/Loading";
-import MainContent from "../comp/MainContent";
 import { Helmet } from "react-helmet-async";
 import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
@@ -57,7 +56,7 @@ if (user) {
            
         </Helmet>
         <Header />
-        <MainContent pageName="About Page" />
+        <main>About page</main>
         <Footer />
       </>
     );

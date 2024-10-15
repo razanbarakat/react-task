@@ -1,5 +1,5 @@
 import React from "react";
-import {  NavLink } from "react-router-dom";
+import {  Link, NavLink } from "react-router-dom";
 import "./Header.css";
 import "../theme.css";
 // LEVEL2
@@ -21,7 +21,9 @@ const Header = () => {
 
       <header className="hide-when-mobile ali ">
         <h1>
-          <a className="logo" href="https://c4a.dev/" >c4a.dev</a>
+      
+          <a className="logo" href="https://c4a.dev/" ></a>
+      <Link to="/">c4a.dev</Link>
         </h1>
         {/* <button
           onClick={() => {

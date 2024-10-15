@@ -1,5 +1,4 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/Home";
 import About from "./pages/About";
 import Erroe404 from './pages/erroe404';
  
@@ -9,6 +8,7 @@ import { useContext } from "react";
 import ThemeContext from "./context/ThemeContext";
 import Signin from './pages/Singin';
 import Signup from './pages/Signup';
+import Home from "./pages/home/Home";
 
 const router = createBrowserRouter([
   {

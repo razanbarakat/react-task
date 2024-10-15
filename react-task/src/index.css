@@ -7,6 +7,39 @@
   align-items: center;
 }
 
+main{
+  color: #1b1b1b;
+
+  min-height: calc(100vh - 133px);
+
+  font-size: 30px;
+  font-weight: bold;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+ 
+  text-align: center;
+}
+
+.mt{
+  margin-top: 1em;
+}
+.mtt{
+  margin-top: 2em;
+}
+.mttt{
+  margin-top: 3em;
+}
+
+.Light main p, .Light main h6, .Light main time{
+  color: #555;
+}
+
+.Light main button{
+  border: 2px solid white;
+}
 
 
 
@@ -51,7 +84,6 @@ span {
   text-decoration: none;
   list-style: none;
 
-  letter-spacing: 1px;
 }
 
 html {
