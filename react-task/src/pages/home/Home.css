@@ -86,3 +86,13 @@ list-style-position: inside;
     font-size: 14px;
    
 }
+
+/* Modal */
+.home .modal li{
+
+    font-size: 13px;
+    color:black;
+    list-style-type: circle;
+    list-style-position: inside;
+    margin-bottom: 6px;
+}
