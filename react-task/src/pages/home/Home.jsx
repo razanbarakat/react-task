@@ -4,7 +4,7 @@ import Loading from "../../comp/Loading";
 import Erroe404 from "../erroe404";
 import { Helmet } from "react-helmet-async";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase/config";
+import { auth, db } from "../../firebase/config";
 import { Link } from "react-router-dom";
 import { sendEmailVerification } from "firebase/auth";
 // Level 3
@@ -12,28 +12,20 @@ import "./Home.css";
 
 import { useState } from "react";
 import Modal from "../../shared/Modal";
+import { doc, setDoc } from "firebase/firestore";
 
 const Home = () => {
+  const [tasktitle, settitle] = useState("");
   const [array, setarray] = useState([]);
   const [subTask, setsubTask] = useState("");
 
-const addBTN = () => {
-  array.push(subTask)
-  console.log(array)
-  setsubTask("")
-}
-
-
-  
-
-
-
-
-
-
+  const addBTN = () => {
+    array.push(subTask);
+    console.log(array);
+    setsubTask("");
+  };
 
   const [user, loading, error] = useAuthState(auth);
-
 
   const sendAgain = () => {
     sendEmailVerification(auth.currentUser).then(() => {
@@ -181,17 +173,19 @@ const addBTN = () => {
               <Modal closeModal={closeModal}>
                 <div style={{ textAlign: "left" }}>
                   <input
-                    onChange={(eo) => {}}
+                    onChange={(eo) => {
+                      settitle(eo.target.value);
+                    }}
                     required
                     placeholder=" Add title : "
                     type="text"
+                    value={tasktitle}
                   />
 
                   <div>
                     <input
                       onChange={(eo) => {
-
-                        setsubTask(eo.target.value)
+                        setsubTask(eo.target.value);
                       }}
                       placeholder=" details "
                       type="email"
@@ -201,7 +195,7 @@ const addBTN = () => {
                     <button
                       onClick={(eo) => {
                         eo.preventDefault();
-                        addBTN()
+                        addBTN();
                       }}
                     >
                       Add
@@ -215,8 +209,20 @@ const addBTN = () => {
                   </ul>
 
                   <button
-                    onClick={(eo) => {
+                    onClick={async (eo) => {
                       eo.preventDefault();
+                      console.log("waiting");
+                      const taskId = new Date().getTime();
+
+                      await setDoc(doc(db, user.uid, `${taskId}`), {
+                        title: tasktitle,
+                        details: array,
+                        id: taskId,
+                      });
+                      setarray([]);
+                      settitle("");
+
+                      console.log("done");
                     }}
                   >
                     Submit
@@ -234,221 +240,3 @@ const addBTN = () => {
 };
 
 export default Home;
-
-
-
-// import Header from "../../comp/header";
-// import Footer from "../../comp/Footer";
-// import Loading from "../../comp/Loading";
-// import Erroe404 from "../erroe404";
-// import { Helmet } from "react-helmet-async";
-// import { useAuthState } from "react-firebase-hooks/auth";
-// import { auth } from "../../firebase/config";
-// import { Link } from "react-router-dom";
-// // import { sendEmailVerification } from "firebase/auth";
-// import "./Home.css";
-// import Modal from "../../shared/Modal";
-// import { useState } from "react";
-
-// const Home = () => {
-//   const [user, loading, error] = useAuthState(auth);
-//   console.log(user);
-
-//   const [array, setArray] = useState([]);
-//   const [showModal, setshowModal] = useState(false);
-//   const [subTask, setsubTask] = useState("");
-//   const forgotPassword = () => {
-//     setshowModal(true);
-//   };
-
-//   const addBtn = () => {
-//     array.push(subTask);
-//     console.log(array);
-//     setsubTask("");
-//   };
-
-//   const closeModal = () => {
-//     setshowModal(false);
-//   };
-
-//   if (error) {
-//     return <Erroe404 />;
-//   }
-
-//   if (loading) {
-//     return <Loading />;
-//   }
-
-//   if (!user) {
-//     return (
-//       <>
-//         <Helmet>
-//           <title>HOME Page</title>
-//           <style type="text/css">{`.Light main h1 span{color: #222}   `}</style>
-//         </Helmet>
-
-//         <Header />
-
-//         <main>
-//           <h1 style={{ fontSize: "28px" }}>
-//             {" "}
-//             <span>Welcome to React Level 2 🔥🔥🔥</span>{" "}
-//           </h1>
-//           <p className="pls">
-//             Please{" "}
-//             <Link style={{ fontSize: "30px" }} to="/signin">
-//               sign in
-//             </Link>{" "}
-//             to continue...{" "}
-//             <span>
-//               <i className="fa-solid fa-heart"></i>
-//             </span>
-//           </p>
-//         </main>
-
-//         <Footer />
-//       </>
-//     );
-//   }
-
-//   if (user) {
-//     if (user.emailVerified) {
-//       return (
-//         <>
-//           <Helmet>
-//             <title>HOME Page</title>
-//           </Helmet>
-
-//           <Header />
-
-//           <main className="home">
-//             {/* OPTIONS */}
-//             <section className="flex parent-of-btns mt">
-//               <button>Newset </button>
-
-//               <button>Oldest </button>
-//               <select>
-//                 <option value="n1">All Tasks</option>
-//                 <option value="n1">Completed</option>
-//                 <option value="n1">Not Completed</option>
-//               </select>
-//             </section>
-
-//             {/* SHOW ALL TASKS */}
-//             <section className="mt flex all-tasks">
-//               <article dir="auto" className="one-task">
-//                 <h2>New task</h2>
-//                 <ul>
-//                   <li>Sub task1 </li>
-//                   <li>Sub task2 </li>
-//                 </ul>
-
-//                 <p className="time"> a day ago</p>
-//               </article>
-//               <article dir="auto" className="one-task">
-//                 <h2>New task</h2>
-//                 <ul>
-//                   <li>Sub task1 </li>
-//                   <li>Sub task2 </li>
-//                 </ul>
-
-//                 <p className="time"> a day ago</p>
-//               </article>
-//               <article dir="auto" className="one-task">
-//                 <h2>New task</h2>
-//                 <ul>
-//                   <li>Sub task1 </li>
-//                   <li>Sub task2 </li>
-//                 </ul>
-
-//                 <p className="time"> a day ago</p>
-//               </article>
-//               <article dir="auto" className="one-task">
-//                 <h2>مهام اليوم</h2>
-//                 <ul>
-//                   <li>تمام </li>
-//                   <li>ماشي </li>
-//                 </ul>
-
-//                 <p className="time"> a day ago</p>
-//               </article>
-//             </section>
-
-//             {/* ADD NEW TASK BTN */}
-//             <section className="mt">
-//               <button
-//                 onClick={() => {
-//                   setshowModal(true);
-//                 }}
-//                 className="add-task-btn"
-//               >
-//                 ADD new task <i className="fa-solid fa-plus"></i>
-//               </button>
-//             </section>
-//             {showModal && (
-//               <Modal closeModal={closeModal}>
-//                 <div style={{ textAlign: "left" }}>
-//                   <input
-//                     onChange={(eo) => {}}
-//                     required
-//                     placeholder=" Add title "
-//                     type="title"
-//                   />
-//                   <div>
-//                     <input
-//                       onChange={(eo) => {
-//                         setsubTask(eo.target.value);
-//                       }}
-//                       placeholder=" details "
-//                       type="text"
-//                       value={subTask}
-//                     />
-//                     <button
-//                       onClick={(eo) => {
-//                         eo.preventDefault();
-//                         addBtn();
-//                       }}
-//                     >
-//                       Add
-//                     </button>
-//                   </div>
-
-//                   <ul>
-//                     {array.map((item) => (
-//                       <li key={item}>{item}</li>
-//                     ))}
-//                   </ul>
-
-//                   <button
-//                     onClick={(eo) => {
-//                       eo.preventDefault();
-//                     }}
-//                   >
-//                     Submit
-//                   </button>
-//                 </div>
-//               </Modal>
-//             )}
-//           </main>
-//           <Footer />
-//         </>
-//       );
-//     }
-
-//     if (!user.emailVerified) {
-//       return (
-//         <>
-//           <Helmet>
-//             <title>HOME Page</title>
-//           </Helmet>
-
-//           <Header />
-
-//           <Footer />
-//         </>
-//       );
-//     }
-//   }
-// };
-
-// export default Home;
